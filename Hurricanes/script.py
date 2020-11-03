@@ -33,7 +33,7 @@ def update_damage(damages):
 
 updated = update_damage(damages)
 print(updated)
-
+print(updated)
 
 # write your construct hurricane dictionary function here:
 
