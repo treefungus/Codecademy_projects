@@ -36,18 +36,16 @@ print(updated)
 print(updated)
 
 # write your construct hurricane dictionary function here:
+def hurricane_dictionary(names, months, years, max_sustained_winds, areas_affected, deaths):
+    dict = {}
+    for i in range(len(names)):
+        dict[names[i]] = {'Name': names[i], 'Month': months[i], 'Years': years[i], 'Max Sustained Wind': max_sustained_winds [i], 'Areas Affected': areas_affected[i], 'Deaths': deaths[i]}
+    return dict
 
-
-
-
-
-
+recorded_hurrs = hurricane_dictionary(names, months, years, max_sustained_winds, areas_affected, deaths)
+print(recorded_hurrs)
 
 # write your construct hurricane by year dictionary function here:
-
-
-
-
 
 
 
