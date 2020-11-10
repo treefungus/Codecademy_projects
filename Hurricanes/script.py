@@ -31,62 +31,111 @@ def update_damage(damages):
                 damages_updated.append(float(damage[:-1])*convert[key])
     return damages_updated
 
-updated = update_damage(damages)
-print(updated)
-print(updated)
+updated_damages = update_damage(damages)
+print(updated_damages)
 
 # write your construct hurricane dictionary function here:
 def hurricane_dictionary(names, months, years, max_sustained_winds, areas_affected, deaths):
     dict = {}
     for i in range(len(names)):
-        dict[names[i]] = {'Name': names[i], 'Month': months[i], 'Years': years[i], 'Max Sustained Wind': max_sustained_winds [i], 'Areas Affected': areas_affected[i], 'Deaths': deaths[i]}
+        dict[names[i]] = {'Name': names[i], 'Month': months[i], 'Year': years[i], 'Max Sustained Wind': max_sustained_winds [i], 'Areas Affected': areas_affected[i], 'Damage': updated_damages[i], 'Deaths': deaths[i]}
     return dict
 
-recorded_hurrs = hurricane_dictionary(names, months, years, max_sustained_winds, areas_affected, deaths)
-print(recorded_hurrs)
-
+hurricanes = hurricane_dictionary(names, months, years, max_sustained_winds, areas_affected, deaths)
+print(hurricanes)
 # write your construct hurricane by year dictionary function here:
+def group_by_year():
+  by_years = {}
+  for storm in hurricanes:
+    year = hurricanes[storm]['Year']
+    storm = hurricanes[storm]
+    if year not in by_years:
+      by_years[year] = [storm]
+    else:
+      by_years[year].append(storm)
+  return by_years
 
-
+print(group_by_year()[1932])
 
 # write your count affected areas function here:
+def count_affected_areas(given_area):
+  new_dict = {}
+  for storm in hurricanes:
+    for area in hurricanes[storm]["Areas Affected"]:
+      if area == given_area:
+        if area not in new_dict.keys():
+          new_dict[area] = 1
+        else:
+          new_dict.update({area: new_dict[area] + 1})
+  return new_dict
 
-
-
-
-
-
-
+print(count_affected_areas("Cuba"))
 # write your find most affected area function here:
+hit_areas_dict = {}
+for storm in hurricanes:
+  for area in hurricanes[storm]["Areas Affected"]:
+    hit_areas_dict.update(count_affected_areas(area))
 
+print(hit_areas_dict)
+def most_affected_area(dictionary):
+  most_hit = max(dictionary, key=dictionary.get)
+  number = dictionary[most_hit]
+  return most_hit, number
 
-
-
-
-
-
+print(most_affected_area(hit_areas_dict))
 # write your greatest number of deaths function here:
+def by_mortality_scale(hurricanes):
+  new_dict = {0: [], 1: [], 2: [], 3: [], 4: []}
+  for storm in hurricanes:
+    if hurricanes[storm]["Deaths"] < 100:
+      new_dict[0].append(storm)
+    elif hurricanes[storm]["Deaths"] < 500:
+      new_dict[1].append(storm)
+    elif hurricanes[storm]["Deaths"] < 1000:
+      new_dict[2].append(storm)
+    elif hurricanes[storm]["Deaths"] < 10000:
+      new_dict[3].append(storm)
+    else:
+      print(f"{storm} out of scale!")
+  return new_dict
 
-
-
-
-
-
-
-# write your catgeorize by mortality function here:
-
-
-
-
-
-
+by_mortality = by_mortality_scale(hurricanes)
+print(by_mortality)
 
 # write your greatest damage function here:
 
+def find_damage(hurricanes):
+  max_damage = 0
+  the_storm = 'default'
+  for storm in hurricanes:
+    if type(hurricanes[storm]["Damage"]) == str:
+      continue
+    elif hurricanes[storm]["Damage"] > max_damage:
+      max_damage = hurricanes[storm]["Damage"]
+      the_storm = f"{storm}:"
+  
+  print(the_storm, max_damage)
+  return the_storm, max_damage
 
-
-
-
-
-
+x, y = find_damage(hurricanes)
+  
 # write your catgeorize by damage function here:
+def by_damage_scale(hurricanes):
+  new_dict = {0: [], 1: [], 2: [], 3: [], 4: []}
+  for storm in hurricanes:
+    if type(hurricanes[storm]["Damage"]) == str:
+      continue
+    elif hurricanes[storm]["Damage"] < 100000000:
+      new_dict[0].append(storm)
+    elif hurricanes[storm]["Damage"] < 1000000000:
+      new_dict[1].append(storm)
+    elif hurricanes[storm]["Damage"] < 10000000000:
+      new_dict[2].append(storm)
+    elif hurricanes[storm]["Damage"] < 50000000000:
+      new_dict[3].append(storm)
+    else:
+      print(f"{storm} out of scale!")
+  return new_dict
+
+by_damage = by_damage_scale(hurricanes)
+print(by_damage)
